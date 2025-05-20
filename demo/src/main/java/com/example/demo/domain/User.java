@@ -1,6 +1,5 @@
 package com.example.demo.domain;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,16 +14,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String role; // DOCTOR hoặc PATIENT
+    private String role; // Ví dụ: ADMIN, DOCTOR, PATIENT
 
-    // Getters và Setters
+    // Getters and Setters
     public Long getId() {
         return id;
     }

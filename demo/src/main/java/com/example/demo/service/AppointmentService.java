@@ -34,4 +34,8 @@ public class AppointmentService {
         // Nếu chưa có, cần thêm vào AppointmentRepository interface
         return appointmentRepository.findByNameAndPhone(name, phone);
     }
+
+    public List<Appointment> findAppointmentsByDoctorId(Long doctorId) {
+        return appointmentRepository.findByDoctorId(doctorId);
+    }
 }

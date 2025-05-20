@@ -29,10 +29,18 @@ public class AppointmentController {
     @Autowired
     private DoctorService doctorService;
 
-    // Hiển thị danh sách lịch hẹn
+    // Hiển thị danh sách lịch hẹn (có thể lọc theo bác sĩ)
     @GetMapping
-    public String listAppointments(Model model) {
-        model.addAttribute("appointments", appointmentService.getAllAppointments());
+    public String listAppointments(@RequestParam(required = false) Long doctorId, Model model) {
+        List<Appointment> appointments;
+        if (doctorId != null) {
+            // Lấy lịch hẹn theo ID bác sĩ nếu có
+            appointments = appointmentService.findAppointmentsByDoctorId(doctorId);
+        } else {
+            // Lấy tất cả lịch hẹn nếu không có ID bác sĩ (dành cho admin)
+            appointments = appointmentService.getAllAppointments();
+        }
+        model.addAttribute("appointments", appointments);
         return "/admin/appointments/list";
     }
 
@@ -118,5 +126,13 @@ public class AppointmentController {
         model.addAttribute("appointments", foundAppointments);
         // Chúng ta sẽ hiển thị kết quả trên một trang JSP mới
         return "/client/appointments/search-results";
+    }
+
+    // Hiển thị danh sách lịch hẹn cho một bác sĩ cụ thể
+    @GetMapping("/doctor/{doctorId}")
+    public String listAppointmentsForDoctor(@PathVariable Long doctorId, Model model) {
+        List<Appointment> doctorAppointments = appointmentService.findAppointmentsByDoctorId(doctorId);
+        model.addAttribute("appointments", doctorAppointments);
+        return "/admin/appointments/list"; // Có thể tạo một JSP riêng cho bác sĩ nếu cần giao diện khác
     }
 }

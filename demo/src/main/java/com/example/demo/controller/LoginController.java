@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.domain.User;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserService;
+import com.example.demo.service.DoctorService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -18,7 +19,10 @@ import jakarta.servlet.http.HttpSession;
 public class LoginController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
+
+    @Autowired
+    private DoctorService doctorService;
 
     @GetMapping("/login")
     public String showLoginForm() {
@@ -31,10 +35,21 @@ public class LoginController {
             @RequestParam String password,
             HttpSession session,
             Model model) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        if (userOptional.isPresent() && userOptional.get().getPassword().equals(password)) {
+        User user = userService.findByUsername(username);
+        if (user != null && user.getPassword().equals(password)) {
             // Đăng nhập thành công
-            session.setAttribute("user", userOptional.get());
+            session.setAttribute("user", user);
+
+            // Nếu user là bác sĩ, lưu thêm thông tin bác sĩ vào session
+            if ("DOCTOR".equals(user.getRole())) {
+                // Giả định User.id của bác sĩ trùng với Doctor.id
+                Long doctorId = user.getId();
+                session.setAttribute("loggedInDoctorId", doctorId);
+                // Optional: Lấy cả Doctor object nếu cần thông tin khác
+                // Doctor doctor = doctorService.getDoctorById(doctorId);
+                // session.setAttribute("loggedInDoctor", doctor);
+            }
+
             return "redirect:/";
         } else {
             // Đăng nhập thất bại
