@@ -28,6 +28,11 @@
                     </div>
 
                     <div class="col-md-6">
+                        <label class="form-label">Số điện thoại:</label>
+                        <input type="text" name="phone" value="${appointment.phone}" class="form-control" required />
+                    </div>
+
+                    <div class="col-md-6">
                         <label class="form-label">Bác sĩ:</label>
                         <select name="doctor.id" class="form-select" required>
                             <c:forEach var="doctor" items="${doctors}">

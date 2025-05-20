@@ -29,6 +29,8 @@ public class Appointment {
 
     private String status;
 
+    private String phone;
+
     
 
     public String getName() {
@@ -93,6 +95,14 @@ public class Appointment {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     

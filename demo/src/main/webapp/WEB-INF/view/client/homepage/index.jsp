@@ -365,12 +365,54 @@
                 </div>
             </section>
 
+            <!-- Phần xem lại lịch hẹn -->
+            <section id="check-appointment" class="py-5">
+                <div class="container">
+                    <h2 class="text-center mb-4 section-title">Xem lại Lịch hẹn của tôi</h2>
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card p-4">
+                                <div class="mb-3">
+                                    <label for="patientNameInput" class="form-label">Tên bệnh nhân:</label>
+                                    <input type="text" class="form-control" id="patientNameInput" placeholder="Nhập tên của bạn">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="appointmentIdInput" class="form-label">Mã lịch hẹn:</label>
+                                    <input type="text" class="form-control" id="appointmentIdInput" placeholder="Nhập mã lịch hẹn">
+                                </div>
+                                <button id="findAppointmentsBtn" class="btn btn-primary">Tìm lịch hẹn</button>
+                                <div id="searchResults" class="mt-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- Liên hệ -->
            <jsp:include page="../layout/footer.jsp"/>
         <jsp:include page="../layout/chatbot.jsp"/>
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+                document.getElementById('findAppointmentsBtn').addEventListener('click', function() {
+                    const patientName = document.getElementById('patientNameInput').value.trim();
+                    const appointmentId = document.getElementById('appointmentIdInput').value.trim();
+                    
+                    if (!patientName || !appointmentId) {
+                        alert('Vui lòng nhập tên và mã lịch hẹn.');
+                        return;
+                    }
+
+                    try {
+                        const encodedName = encodeURIComponent(patientName);
+                        const url = '/appointments/confirm/' + appointmentId + '?name=' + encodedName;
+                        window.location.href = url;
+                    } catch (error) {
+                        console.error('Lỗi khi xử lý URL:', error);
+                        alert('Có lỗi xảy ra khi tìm kiếm lịch hẹn. Vui lòng thử lại.');
+                    }
+                });
+            </script>
         </body>
 
         </html>

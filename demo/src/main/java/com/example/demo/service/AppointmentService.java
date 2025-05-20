@@ -28,4 +28,10 @@ public class AppointmentService {
     public void deleteAppointment(Long id) {
         appointmentRepository.deleteById(id);
     }
+
+    public List<Appointment> findAppointmentsByNameAndPhone(String name, String phone) {
+        // Giả định AppointmentRepository có phương thức findByNameAndPhone
+        // Nếu chưa có, cần thêm vào AppointmentRepository interface
+        return appointmentRepository.findByNameAndPhone(name, phone);
+    }
 }

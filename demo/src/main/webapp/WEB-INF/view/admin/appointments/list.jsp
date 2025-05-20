@@ -104,15 +104,33 @@
                         <c:forEach var="appointment" items="${appointments}">
                             <tr>
                                 <td>${appointment.id}</td>
-                                <td>${appointment.patient.name}</td>
+                                <td>${appointment.name}</td>
                                 <td>${appointment.doctor.name}</td>
                                 <td>${appointment.appointmentDate}</td>
-                                <td>${appointment.status}</td>
                                 <td>
-                                    <a href="/appointments/edit/${appointment.id}"
-                                        class="btn btn-warning btn-sm">Sửa</a>
-                                    <a href="/appointments/delete/${appointment.id}" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                                    <c:if test="${appointment.status eq 'PENDING'}">
+                                        <span class="badge bg-warning">Chưa xử lý</span>
+                                    </c:if>
+                                    <c:if test="${appointment.status eq 'ACCEPTED'}">
+                                        <span class="badge bg-success">Đã chấp nhận</span>
+                                    </c:if>
+                                    <c:if test="${appointment.status eq 'REJECTED'}">
+                                        <span class="badge bg-danger">Đã từ chối</span>
+                                    </c:if>
+                                </td>
+                                <td>
+                                    <c:if test="${appointment.status eq 'PENDING'}">
+                                        <a href="/appointments/accept/${appointment.id}" class="btn btn-success btn-sm">Chấp nhận</a>
+                                        <a href="/appointments/reject/${appointment.id}" class="btn btn-danger btn-sm">Từ chối</a>
+                                    </c:if>
+                                    <c:if test="${appointment.status eq 'ACCEPTED'}">
+                                        <span class="badge bg-success">Đã chấp nhận</span>
+                                    </c:if>
+                                     <c:if test="${appointment.status eq 'REJECTED'}">
+                                        <span class="badge bg-danger">Đã từ chối</span>
+                                    </c:if>
+                                    <a href="/appointments/edit/${appointment.id}" class="btn btn-warning btn-sm">Sửa</a>
+                                    <a href="/appointments/delete/${appointment.id}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
                                 </td>
                             </tr>
                         </c:forEach>
